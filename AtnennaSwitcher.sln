@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtnennaSwitcher", "AtnennaSwitcher.csproj", "{656807AB-1A4F-4A49-B3AF-BE27B184E8D4}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SwitcherSetup", "..\SwitcherSetup\SwitcherSetup.vdproj", "{6C6C9089-A58A-4D5C-8319-FC91574FB8ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{656807AB-1A4F-4A49-B3AF-BE27B184E8D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{656807AB-1A4F-4A49-B3AF-BE27B184E8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{656807AB-1A4F-4A49-B3AF-BE27B184E8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{656807AB-1A4F-4A49-B3AF-BE27B184E8D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C6C9089-A58A-4D5C-8319-FC91574FB8ED}.Debug|Any CPU.ActiveCfg = Debug
+		{6C6C9089-A58A-4D5C-8319-FC91574FB8ED}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D524C51-77AA-48B8-A076-18BF06EF7653}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,82 @@
+﻿<Window x:Class="AtnennaSwitcher.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AtnennaSwitcher"
+        mc:Ignorable="d"
+        Title="Help" Height="450" Width="800">
+    <Grid>
+        <FlowDocumentScrollViewer x:Name="docViewer">
+            <FlowDocument>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    1. Режим роботи
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    При старті необхідно вибрати один із двох режимів роботи:
+
+                    Server – у цьому режимі ваш комп'ютер фізично з'єднаний з комутатором.
+
+                    Client – у цьому режимі ви керуєте комутатором через програму Server за допомогою UDP повідомлень.
+
+                    Для налаштування UDP з'єднання використовуйте пункт меню "Settings - UDP Connection"
+
+                    Поточний режим роботи відображається на головному вікні.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    2. Підключення до комутатора
+                </Paragraph>
+                <Paragraph TextAlignment="Left"  FontSize="15">
+                    Підключення до комутатора здійснюється через кабель USB, але управління здійснюється через віртуальний COM порт.
+
+                    Для вибору порту використовуйте пункт меню "Settings - Switcher Connection"
+
+                    Якщо підключення встановлено - індикатор з'єднання світиться зеленим. Якщо ні – червоним.
+                    Для спроби повторного підключення - здійснить подвійний клік миші по індикатору.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    3. Режим блокування кнопок.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    Для перемикання режиму блокування використовуйте чекбох у меню "Settings - Switcher Connection"
+       
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    4. Індикатор "ALARM"
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    Якщо ви бачите мерехтіння  напису  "ALARM" це означає, що була вибрана заборонена комбінація і необхідно переключити антену або фільтр.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    5. Індикація "TX"
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    Якщо радіо А або В перебуває в режимі передачі, то відповідний символ горить червоним світлом.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    6. Зміни позначень антен.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    Щоб змінити позначення, натисніть праву кнопку миші на відповідній кнопці.
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontWeight="Bold" FontSize="15">
+                    7. Налаштування зовнішнього вигляду
+                </Paragraph>
+                <Paragraph TextAlignment="Left" FontSize="15">
+                    У меню "Settings - Colors" можна вибрати такі параметри:
+                    <LineBreak/>
+                    Колір головного вікна - Main
+                    <LineBreak/>
+                    Колір кнопок радіо A/B - Radio A/B
+                    <LineBreak/>
+                    Колір тексту на кнопках радіо A/B - Text A/B
+                    <LineBreak/>
+                    Колір позначає, що кнопка натиснута - Used
+                    <LineBreak/>
+                    Розмір тексту - Text A/B
+
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>

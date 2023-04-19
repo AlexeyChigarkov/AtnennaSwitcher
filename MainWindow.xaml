@@ -1,0 +1,113 @@
+﻿<Window x:Class="AtnennaSwitcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Antenna switcher" SizeToContent="WidthAndHeight" MinHeight="100" MinWidth="400" Icon="Images/antennalinear_106189.ico">
+    <Window.Resources>
+
+        <Style x:Key="AntennaButton" TargetType="Button">
+            <Setter Property="Control.MinHeight" Value="50" />
+            <Setter Property="Control.Background" Value="{Binding Path=ColorA}" />
+            <Setter Property="Control.Foreground" Value="{Binding Path=ColorAText}" />
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.MinWidth" Value="50" />
+            <Setter Property="Control.FontSize" Value="{Binding Path=TextSize}" />
+            <EventSetter Event="MouseRightButtonDown" Handler="ChangeBand_Click"></EventSetter>
+            <EventSetter Event="Click" Handler="Button_Click"></EventSetter>
+        </Style>
+        <Style x:Key="AntennaButtonB" TargetType="Button">
+            <Setter Property="Control.MinHeight" Value="50" />
+            <Setter Property="Control.Background" Value="{Binding Path=ColorB}" />
+            <Setter Property="Control.Foreground" Value="{Binding Path=ColorBText}" />
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.MinWidth" Value="50" />
+            <Setter Property="Control.FontSize" Value="{Binding Path=TextSize}" />
+            <EventSetter Event="MouseRightButtonDown" Handler="ChangeBand_Click"></EventSetter>
+            <EventSetter Event="Click" Handler="Button_Click"></EventSetter>
+
+        </Style>
+        
+    </Window.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel Background ="{Binding Path=ColorMain}" >
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top">
+                <MenuItem Header="Menu">
+                    <MenuItem Header="Settings" Click="MenuItem_OnClick" ></MenuItem>
+                    <MenuItem Header="Help" Click="MenuHelp_OnClick" ></MenuItem>
+                    <MenuItem Header="Exit" Click="MenuItemExit_OnClick" ></MenuItem>
+                    </MenuItem>
+            <Ellipse x:Name="ConnectionStatus" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" Height="20" Width="20" Fill="Red" HorizontalAlignment="Right"  />
+            <TextBlock  x:Name ="Alarm" Foreground="Red" HorizontalAlignment="Right"  FontWeight ="Bold" Text="ALARM"></TextBlock>
+
+</Menu>
+       
+            </DockPanel>
+            <UniformGrid Rows="1" Columns="1">
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Gainsboro">
+                    <TextBlock Margin="5" x:Name ="ClientMode" FontSize="10" FontWeight="Bold" Foreground="Black"></TextBlock>
+                </Border>
+            </UniformGrid>
+            <UniformGrid Rows="1" Columns="13">
+                <Border x:Name ="TxA" Margin="5">
+                    <Viewbox   Height="30" MinWidth="10" >
+                    <TextBlock Text="{Binding Path= TextA}"></TextBlock>
+            </Viewbox>
+                    </Border>
+            <Button x:Name="buttonSA01" Style="{StaticResource AntennaButton}"   Content="1.8"  />
+            <Button x:Name="buttonSA02"  Style="{StaticResource AntennaButton}"   Content="3.5"   />
+            <Button x:Name="buttonSA03" Style="{StaticResource AntennaButton}"    Content="7"   />
+            <Button x:Name="buttonSA04" Style="{StaticResource AntennaButton}"    Content="10"   />
+            <Button x:Name="buttonSA05"  Style="{StaticResource AntennaButton}"  Content="14"  />
+            <Button x:Name="buttonSA06" Style="{StaticResource AntennaButton}"    Content="18"   />
+            <Button x:Name="buttonSA07" Style="{StaticResource AntennaButton}"   Content="21"   />
+            <Button x:Name="buttonSA08"  Style="{StaticResource AntennaButton}"  Content="24"   />
+            <Button x:Name="buttonSA09"  Style="{StaticResource AntennaButton}"   Content="28"   />
+            <Button x:Name="buttonSA10"  Style="{StaticResource AntennaButton}"   Content="50"   />
+            <Button x:Name="buttonSA11" Style="{StaticResource AntennaButton}"   Content="144"   />
+            <Button x:Name="buttonSA12" Style="{StaticResource AntennaButton}"   Content="432"   />
+        </UniformGrid>
+        <UniformGrid Rows="1" Columns="13">
+                <Border x:Name ="TxB" Margin="5">
+                    <Viewbox  Height="30" MinWidth="10" >
+                <TextBlock  Text="{Binding Path= TextB}"></TextBlock>
+            </Viewbox>
+                </Border>
+            <Button x:Name="buttonSB01"  Style="{StaticResource AntennaButtonB}"   Content="1.8"   />
+            <Button x:Name="buttonSB02"  Style="{StaticResource AntennaButtonB}"   Content="3.5"  />
+            <Button x:Name="buttonSB03" Style="{StaticResource AntennaButtonB}"    Content="7"   />
+            <Button x:Name="buttonSB04" Style="{StaticResource AntennaButtonB}"    Content="10"   />
+            <Button x:Name="buttonSB05"  Style="{StaticResource AntennaButtonB}"  Content="14"   />
+            <Button x:Name="buttonSB06" Style="{StaticResource AntennaButtonB}"    Content="18"   />
+            <Button x:Name="buttonSB07" Style="{StaticResource AntennaButtonB}"   Content="21"   />
+            <Button x:Name="buttonSB08"  Style="{StaticResource AntennaButtonB}"  Content="24"   />
+            <Button x:Name="buttonSB09"  Style="{StaticResource AntennaButtonB}"   Content="28"   />
+            <Button x:Name="buttonSB10"  Style="{StaticResource AntennaButtonB}"   Content="50"  />
+            <Button x:Name="buttonSB11" Style="{StaticResource AntennaButtonB}"   Content="144"   />
+            <Button x:Name="buttonSB12" Style="{StaticResource AntennaButtonB}"   Content="432"   />
+        </UniformGrid>
+        <UniformGrid Rows="1" Columns="13">
+            <Viewbox Height="30" MinWidth="10" >
+                <TextBlock Text="{Binding Path= TextF}"></TextBlock>
+            </Viewbox>
+                <Button x:Name="buttonFA01"    Style="{StaticResource AntennaButton}"   Content="1.8"   />
+            <Button x:Name="buttonFA02"  Style="{StaticResource AntennaButton}"   Content="3.5"  />
+            <Button x:Name="buttonFA03" Style="{StaticResource AntennaButton}"    Content="7"   />
+            <Button x:Name="buttonFA04" Style="{StaticResource AntennaButton}"    Content="10"   />
+            <Button x:Name="buttonFA05"  Style="{StaticResource AntennaButton}"  Content="14"   />
+            <Button x:Name="buttonFA06" Style="{StaticResource AntennaButton}"    Content="18"   />
+            <Button x:Name="buttonFB01" Style="{StaticResource AntennaButtonB}"   Content="21"   />
+            <Button x:Name="buttonFB02"  Style="{StaticResource AntennaButtonB}"  Content="24"   />
+            <Button x:Name="buttonFB03"  Style="{StaticResource AntennaButtonB}"   Content="28"   />
+            <Button x:Name="buttonFB04"  Style="{StaticResource AntennaButtonB}"   Content="50"  />
+            <Button x:Name="buttonFB05" Style="{StaticResource AntennaButtonB}"   Content="144"   />
+            <Button x:Name="buttonFB06" Style="{StaticResource AntennaButtonB}"   Content="432"   />
+        </UniformGrid>
+          
+        </StackPanel>
+       
+    </ScrollViewer>
+
+</Window>

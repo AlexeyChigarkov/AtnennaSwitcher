@@ -1,0 +1,68 @@
+﻿<Window x:Class="AtnennaSwitcher.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AtnennaSwitcher"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Configuration" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl Background ="{Binding Path=ColorMain}">
+            <TabItem Loaded="FrameworkElement_OnLoaded">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                    <Ellipse Height="10" Width="10" Fill="Black" />
+                        <TextBlock Margin="3">UDP connection</TextBlock>
+                </StackPanel>
+                    </TabItem.Header>
+                <TabItem.Content>
+                    <UniformGrid Columns="1" Rows ="9">
+                        <TextBlock>Sever IP</TextBlock>
+                        <TextBox Name="serverIP" Grid.Row="1" MinWidth="50" Text="{Binding Path=ServerIp}" ></TextBox>
+                        <TextBlock>Sever port</TextBlock>
+                        <TextBox Name="serverPort" Grid.Row="1" MinWidth="50"  Text="{Binding Path=ServerPort}"></TextBox>
+                        <TextBlock>Client IP</TextBlock>
+                        <TextBox Name="clientIP" Grid.Row="1"  Text="{Binding Path=ClientIp}" MinWidth="50"></TextBox>
+                        <TextBlock>Client port</TextBlock>
+                        <TextBox Name="clientPort" Grid.Row="1"  Text="{Binding Path=ClientPort}" MinWidth="50"></TextBox>
+                        <Button HorizontalAlignment="Center" Click ="ButtonBase_OnClick" Width ="50" HorizontalContentAlignment="Center" Content="Apply"></Button>
+                    </UniformGrid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Polygon Height="10" Width="10" Fill="Black" />
+                        <TextBlock Margin="3">Switcher connection</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UniformGrid Columns="1" Rows ="6">
+                        <ComboBox x:Name="PortsList" Text="-- Select port --" SelectionChanged="PortsList_OnSelectionChanged" Background="AliceBlue">
+                        </ComboBox>
+                        <CheckBox x:Name="BlockEnabled" Unchecked="BlockEnabled_OnUnchecked" Checked="BlockEnabled_OnChecked" IsChecked="{Binding Path=BlockEnabled}" Margin="10" >Enable blocking</CheckBox>
+                    </UniformGrid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Height="10" Width="10" Fill="Black" />
+                        <TextBlock Margin="3">Colors</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                   <UniformGrid Columns="2" Rows ="4">
+                       <Button x:Name="ColorA" Click="ColorA1_OnClick" Content="RADIO A" MinWidth="50" Background="{Binding Path=ColorA}"  />
+                       <Button x:Name="ColorAText" Click="ColorAText_OnClick" Content="TEXT A" MinWidth="50" Background="{Binding Path=ColorAText}"  />
+                       <Button x:Name="ColorB" Click="ColorB_OnClick" Content="RADIO B" MinWidth="50" Background="{Binding Path=ColorB}"  />
+                       <Button x:Name="ColorBText" Click="ColorBText_OnClick_OnClick" Content="TEXT B" MinWidth="50" Background="{Binding Path=ColorBText}"  />
+                        <Button x:Name="ColorU" Click="ColorU_OnClick" Content="Used" MinWidth="50" Background="{Binding Path=ColorUsed}"  />
+                        <Button x:Name="ColorM" Click="ColorM_OnClick" Content="Main" MinWidth="50" Background="{Binding Path=ColorMain}"  />
+                    </UniformGrid>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
