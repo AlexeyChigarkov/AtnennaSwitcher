@@ -42,7 +42,7 @@ namespace AtnennaSwitcher
             }
             MyConfiguration = ConfigProvider.GetConfiguration();
             Closing += MainWindow_Closing;
-            DataContext = MyConfiguration;
+            DataContext = MyConfiguration;          
             SetLabels();
             OnAlarm(false);
 
@@ -277,35 +277,43 @@ namespace AtnennaSwitcher
 
         private void SetLabels()
         {
-            for (int i = 1; i < 13; i++)
+            string fmt = "00";
+            for (int i = 1; i < 7; i++)
             {
 
-                var nameA = "buttonA" + i;
-
-                var nameB = "buttonB" + i;
-                var nameF = "buttonF" + i;
+                var nameA = "buttonSA" + i.ToString(fmt);
+                var nameB = "buttonSB" + i.ToString(fmt);
+                var nameF = "buttonFA" + i.ToString(fmt);
+                var nameA2 = "buttonSA" + (i+6).ToString(fmt);
+                var nameB2 = "buttonSB" + (i+6).ToString(fmt);
+                var nameF2 = "buttonFB" + (i ).ToString(fmt);
 
                 SetLabel(nameA);
                 SetLabel(nameB);
                 SetLabel(nameF);
+                SetLabel(nameA2);
+                SetLabel(nameB2);
+                SetLabel(nameF2);
 
+                ClientMode.Text = _isSever ? "SERVER" : "CLIENT";
             }
-
-            ClientMode.Text = _isSever ? "SERVER" : "CLIENT";
         }
 
         private void SetLabel(string name)
         {
-            var b = (Button)FindName(name);
-            if (b == null) return;
-            if (MyConfiguration.ButtonLabels.ContainsKey(name))
-            {
-                b.Content = MyConfiguration.ButtonLabels[name];
-            }
-            else
-            {
-                MyConfiguration.ButtonLabels.Add(b.Name, b.Content.ToString());
-            }
+            Dispatcher.Invoke(() =>
+            {              
+                var b = (Button)FindName(name);
+                if (b == null) return;
+                if (MyConfiguration.ButtonLabels.ContainsKey(name))
+                {
+                    b.Content = MyConfiguration.ButtonLabels[name];
+                }
+                else
+                {
+                    MyConfiguration.ButtonLabels.Add(b.Name, b.Content.ToString());
+                }
+            });
         }
 
 
