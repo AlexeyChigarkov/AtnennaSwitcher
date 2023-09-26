@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AtnennaSwitcher
 {
@@ -29,42 +18,37 @@ namespace AtnennaSwitcher
         private readonly ConnectionProvider _provider;
         private readonly ResponseHelper _helper;
         private List<string> _usedNames;
-        private readonly bool _isSever = false;
         private bool _isConnected;
         private readonly UdpProvider _udpProvider;
         public MainWindow()
         {
             InitializeComponent();
-            if (MessageBox.Show("Start as a sever?", "Antenna switcher", MessageBoxButton.YesNo) ==
-                MessageBoxResult.Yes)
-            {
-                _isSever = true;
-            }
+
             MyConfiguration = ConfigProvider.GetConfiguration();
             Closing += MainWindow_Closing;
-            DataContext = MyConfiguration;          
-            SetLabels();
-            OnAlarm(false);
-
+            DataContext = MyConfiguration;
             _udpProvider = new UdpProvider();
             _helper = new ResponseHelper();
             _usedNames = new List<string>();
 
-            if (_isSever)
+            MyConfiguration.IsServer ??= MessageBox.Show("Start as a sever?", "Antenna switcher", MessageBoxButton.YesNo) ==
+                                         MessageBoxResult.Yes;
+            if (MyConfiguration.IsServer == false)
+            {
+                _udpProvider.StartReceivingFromServer(MyConfiguration.ServerPort);
+                _udpProvider.StatusIsChanged += SetReceivedStatus;
+            }
+            else
             {
                 _provider = new ConnectionProvider();
                 _provider.StatusIsChanged += SetReceivedStatus;
-
                 SetConnectionStatus(_provider.Connect(MyConfiguration.PortName));
 
                 _udpProvider.StartReceivingFromClient(MyConfiguration.ClientPort);
                 _udpProvider.CommandIsReceived += SendCommand;
             }
-            else
-            {
-                _udpProvider.StartReceivingFromServer(MyConfiguration.ServerPort);
-                _udpProvider.StatusIsChanged += SetReceivedStatus;
-            }
+            SetLabels();
+            OnAlarm(false);
 
         }
 
@@ -95,15 +79,24 @@ namespace AtnennaSwitcher
                         _usedNames.Add(b.Name);
                     }
                     var af = (Button)FindName(data.FilterA);
-                    if (af != null)
+                    if (af != null )
                     {
                         af.Background = MyConfiguration.ColorUsed;
+                        if (!af.Name.Contains("00"))
+                        {
+                            BlockPaired(af.Name);
+                        }
                         _usedNames.Add(af.Name);
                     }
                     var bf = (Button)FindName(data.FilterB);
-                    if (bf != null)
+                    if (bf != null )
                     {
                         bf.Background = MyConfiguration.ColorUsed;
+                        if (!bf.Name.Contains("00"))
+                        {
+                            BlockPaired(bf.Name);
+                        }
+                      
                         _usedNames.Add(bf.Name);
                     }
 
@@ -116,7 +109,7 @@ namespace AtnennaSwitcher
                 });
 
                 SetTx(data.TxA, data.TxB);
-                if (_isSever)
+                if (MyConfiguration.IsServer == true)
                 {
                     _udpProvider.SendToClient(status, MyConfiguration.ServerPort, MyConfiguration.ClientIp);
                 }
@@ -200,6 +193,26 @@ namespace AtnennaSwitcher
                         _usedNames.Add(toBlock.Name);
                     }
                 }
+                if (name.StartsWith("buttonFA"))
+                {
+                    string nameToBLock = name.Replace('A', 'B');
+                    var toBlock = (Button)FindName(nameToBLock);
+                    if (toBlock != null)
+                    {
+                        toBlock.IsEnabled = false;
+                        _usedNames.Add(toBlock.Name);
+                    }
+                }
+                if (name.StartsWith("buttonFB"))
+                {
+                    string nameToBLock = name.Replace('B', 'A');
+                    var toBlock = (Button)FindName(nameToBLock);
+                    if (toBlock != null)
+                    {
+                        toBlock.IsEnabled = false;
+                        _usedNames.Add(toBlock.Name);
+                    }
+                }
             });
         }
 
@@ -217,9 +230,9 @@ namespace AtnennaSwitcher
             {
                 var message = b.Name.Substring(6);
 
-                if (!_isSever)
+                if (MyConfiguration.IsServer == false)
                 {
-                    _udpProvider.SendToServer(message + ";", MyConfiguration.ClientPort, MyConfiguration.ServerIp);
+                    _udpProvider?.SendToServer(message + ";", MyConfiguration.ClientPort, MyConfiguration.ServerIp);
                 }
                 else
                 {
@@ -234,7 +247,7 @@ namespace AtnennaSwitcher
             {
                 _provider.SendCommand(command);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _isConnected = false;
                 SetConnectionStatus(_isConnected);
@@ -267,12 +280,13 @@ namespace AtnennaSwitcher
 
         public void OnConfigurationChanged(Configuration newC)
         {
-            if (MyConfiguration.PortName != newC.PortName)
+            if (MyConfiguration.IsServer == true && MyConfiguration.PortName != newC.PortName)
             {
                 _provider.Disconnect();
                 _provider.Connect(MyConfiguration.PortName);
             }
             MyConfiguration.Update(newC);
+
         }
 
         private void SetLabels()
@@ -284,9 +298,9 @@ namespace AtnennaSwitcher
                 var nameA = "buttonSA" + i.ToString(fmt);
                 var nameB = "buttonSB" + i.ToString(fmt);
                 var nameF = "buttonFA" + i.ToString(fmt);
-                var nameA2 = "buttonSA" + (i+6).ToString(fmt);
-                var nameB2 = "buttonSB" + (i+6).ToString(fmt);
-                var nameF2 = "buttonFB" + (i ).ToString(fmt);
+                var nameA2 = "buttonSA" + (i + 6).ToString(fmt);
+                var nameB2 = "buttonSB" + (i + 6).ToString(fmt);
+                var nameF2 = "buttonFB" + (i).ToString(fmt);
 
                 SetLabel(nameA);
                 SetLabel(nameB);
@@ -295,19 +309,19 @@ namespace AtnennaSwitcher
                 SetLabel(nameB2);
                 SetLabel(nameF2);
 
-                ClientMode.Text = _isSever ? "SERVER" : "CLIENT";
+                ClientMode.Text = MyConfiguration.IsServer == true ? "SERVER" : "CLIENT";
             }
         }
 
         private void SetLabel(string name)
         {
             Dispatcher.Invoke(() =>
-            {              
+            {
                 var b = (Button)FindName(name);
                 if (b == null) return;
-                if (MyConfiguration.ButtonLabels.ContainsKey(name))
+                if (MyConfiguration.ButtonLabels.TryGetValue(name, out var label))
                 {
-                    b.Content = MyConfiguration.ButtonLabels[name];
+                    b.Content = label;
                 }
                 else
                 {
@@ -319,7 +333,7 @@ namespace AtnennaSwitcher
 
         private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount > 1 & !_isConnected)
+            if (MyConfiguration.IsServer == true && e.ClickCount > 1 && !_isConnected)
             {
 
                 SetConnectionStatus(_provider.Connect(MyConfiguration.PortName));
@@ -379,6 +393,27 @@ namespace AtnennaSwitcher
         {
             var help = new HelpWindow();
             help.Show();
+        }
+
+        private void ClientMode_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount > 1)
+            {
+                var mode = MyConfiguration.IsServer == true ? "client" : "server";
+                var restart = MessageBox.Show($"Restart as a {mode}?", "Antenna switcher", MessageBoxButton.YesNo) ==
+                              MessageBoxResult.Yes;
+                if (restart)
+                {
+                    MyConfiguration.IsServer = !MyConfiguration.IsServer;
+                    var processModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+                    if (processModule != null)
+                        System.Diagnostics.Process.Start(processModule
+                            .FileName);
+                    Application.Current.Shutdown();
+                }
+
+            }
+
         }
     }
 }

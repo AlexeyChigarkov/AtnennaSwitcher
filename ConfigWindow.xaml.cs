@@ -91,7 +91,7 @@ namespace AtnennaSwitcher
         {
             FontDialog fd = new FontDialog();
             fd.ShowColor = true;
-            fd.Font = new Font("Times New Roman",MyConfiguration.TextSize);
+            fd.Font = new Font("Times New Roman", MyConfiguration.TextSize);
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 MyConfiguration.ColorAText =
@@ -141,7 +141,24 @@ namespace AtnennaSwitcher
             Changed?.Invoke(updated);
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void ColorBText_OnClick_OnClick(object sender, RoutedEventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.ShowColor = true;
+            fd.Font = new Font("Times New Roman", MyConfiguration.TextSize);
+            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                MyConfiguration.ColorBText =
+                    new SolidColorBrush(Color.FromArgb(fd.Color.A, fd.Color.R, fd.Color.G, fd.Color.B));
+                MyConfiguration.TextSize = fd.Font.Size;
+            }
+
+            var updated = new Configuration();
+            updated.Update(MyConfiguration);
+            Changed?.Invoke(updated);
+        }
+
+        private void ApplyUdp_OnClick_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -159,24 +176,6 @@ namespace AtnennaSwitcher
 
             }
 
-
-        }
-
-        private void ColorBText_OnClick_OnClick(object sender, RoutedEventArgs e)
-        {
-            FontDialog fd = new FontDialog();
-            fd.ShowColor = true;
-            fd.Font = new Font("Times New Roman", MyConfiguration.TextSize);
-            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                MyConfiguration.ColorBText =
-                    new SolidColorBrush(Color.FromArgb(fd.Color.A, fd.Color.R, fd.Color.G, fd.Color.B));
-                MyConfiguration.TextSize = fd.Font.Size;
-            }
-
-            var updated = new Configuration();
-            updated.Update(MyConfiguration);
-            Changed?.Invoke(updated);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AtnennaSwitcher
 {
@@ -31,7 +32,7 @@ namespace AtnennaSwitcher
                 return true;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Disconnect();
                 return false;

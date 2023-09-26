@@ -26,7 +26,7 @@
                         <TextBox Name="clientIP" Grid.Row="1"  Text="{Binding Path=ClientIp}" MinWidth="50"></TextBox>
                         <TextBlock>Client port</TextBlock>
                         <TextBox Name="clientPort" Grid.Row="1"  Text="{Binding Path=ClientPort}" MinWidth="50"></TextBox>
-                        <Button HorizontalAlignment="Center" Click ="ButtonBase_OnClick" Width ="50" HorizontalContentAlignment="Center" Content="Apply"></Button>
+                        <Button x:Name="ApplyUdp" HorizontalAlignment="Center" Click ="ApplyUdp_OnClick_OnClick" Width ="50" HorizontalContentAlignment="Center" Content="Apply"></Button>
                     </UniformGrid>
                 </TabItem.Content>
             </TabItem>

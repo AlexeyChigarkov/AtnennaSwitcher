@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace AtnennaSwitcher
@@ -29,6 +24,7 @@ namespace AtnennaSwitcher
         private int _serverPort;
         private string _clientIp;
         private string _serverIp;
+        private bool? _isServer;
 
         public Brush ColorA
         {
@@ -150,7 +146,16 @@ namespace AtnennaSwitcher
                 OnPropertyChanged();
             }
         }
-
+        public bool? IsServer
+        {
+            get => _isServer;
+            set
+            {
+                if (value == _isServer) return;
+                _isServer = value;
+                OnPropertyChanged();
+            }
+        }
         public string ClientIp
         {
             get => _clientIp;
@@ -201,11 +206,11 @@ namespace AtnennaSwitcher
         }
 
         public Configuration() : this(new SolidColorBrush(Colors.CornflowerBlue), new SolidColorBrush(Colors.DarkOrange), new SolidColorBrush(Colors.Azure), new SolidColorBrush(Colors.Red),
-            new SolidColorBrush(Colors.White), new SolidColorBrush(Colors.Black), "A", "B", "F", 15, "COM4", true, 5555,5556,"127.0.0.1","127.0.0.1", new Dictionary<string, string>())
+            new SolidColorBrush(Colors.White), new SolidColorBrush(Colors.Black), "A", "B", "F", 15, null, true, 5555,5556,"127.0.0.1","127.0.0.1", new Dictionary<string, string>(),null)
         {
 
         }
-        public Configuration(Brush a, Brush b, Brush main, Brush used, Brush tA, Brush tB, string textA, string textB, string textF, int textSize, string portName, bool blockEnabled, int clientPort, int serverPort, string clientIp, string serverIp, Dictionary<string, string> labels)
+        public Configuration(Brush a, Brush b, Brush main, Brush used, Brush tA, Brush tB, string textA, string textB, string textF, int textSize, string portName, bool blockEnabled, int clientPort, int serverPort, string clientIp, string serverIp, Dictionary<string, string> labels,bool? isServer)
         {
             ColorA = a;
             ColorB = b;
@@ -224,6 +229,7 @@ namespace AtnennaSwitcher
             ClientIp = clientIp;
             ClientPort = clientPort;
             ServerIp = serverIp;
+            IsServer = isServer;
         }
 
         public void Update(Configuration c)
@@ -245,6 +251,7 @@ namespace AtnennaSwitcher
             ClientIp = c.ClientIp;
             ClientPort = c.ClientPort;
             ServerIp = c.ServerIp;
+            IsServer = c.IsServer;
         }
     }
 }
